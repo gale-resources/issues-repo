@@ -1,4 +1,5 @@
 name: Auto Assign and Comment
+
 on:
   issues:
     types: [opened]
@@ -8,25 +9,23 @@ on:
 jobs:
   auto-assign-comment:
     runs-on: ubuntu-latest
-    permissions:
-      issues: write
-      pull-requests: write
-      contents: read
+    permissions: write-all
+
     steps:
-      - name: Auto-assign issue or pull request
+      - name: Auto-assign issue or PR
         uses: pozil/auto-assign-issue@v1
         with:
-          repo-token: ${{ secrets.MY_GITHUB_TOKEN }}
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
           assignees: winbo-yml-exe
           numOfAssignee: 1
 
-      - name: Add comment for issue
-        if: github.event_name == 'issues'
-        uses: peter-evans/create-or-update-comment@v1
+      - name: Add a comment to the issue or PR
+        uses: peter-evans/create-or-update-comment@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          issue-number: ${{ github.event.issue.number }}
-          body: "Hello and thank you for your bug report! Someone should respond to your bug report within a hour. If the bug report is something important, like ROMs not booting, please contact the owner at winbo.yml@proton.me. You can also contact him at Telegram (@winbo_yml) and Discord (winbo_the_dev)."
+          issue-number: ${{ github.event.issue.number || github.event.pull_request.number }}
+          body: |
+            Hello and thank you for your bug report! Someone should respond to your bug report within an hour. If the bug report is something critical, like ROMs not booting, please contact the owner at winbo.yml@proton.me. You can also contact him at Telegram (@winbo_yml) and Discord (winbo_the_dev).
 
       - name: Add comment for pull request
         if: github.event_name == 'pull_request'
