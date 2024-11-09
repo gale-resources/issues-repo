@@ -24,6 +24,7 @@ jobs:
         uses: peter-evans/create-or-update-comment@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          issue-number: ${{ github.event.issue.number }}
           body: "Hello and thank you for your bug report! Someone should respond to your bug report within a hour. If the bug report is something important, like ROMs not booting, please contact the owner at winbo.yml@proton.me. You can also contact him at Telegram (@winbo_yml) and Discord (winbo_the_dev)."
 
       - name: Add comment for pull request
