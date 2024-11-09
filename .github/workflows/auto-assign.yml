@@ -16,7 +16,7 @@ jobs:
       - name: Auto-assign issue or pull request
         uses: pozil/auto-assign-issue@v1
         with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          repo-token: ${{ secrets.MY_GITHUB_TOKEN }}
           assignees: winbo-yml-exe
           numOfAssignee: 1
 
