@@ -19,19 +19,21 @@ jobs:
           assignees: winbo-yml-exe
           numOfAssignee: 1
 
-      - name: Add a comment to the issue or PR
+      - name: Add a comment to the issue
+        if: github.event_name == 'issues'
         uses: peter-evans/create-or-update-comment@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          issue-number: ${{ github.event.issue.number || github.event.pull_request.number }}
+          issue-number: ${{ github.event.issue.number }}
           body: |
             Hello and thank you for your bug report! Someone should respond to your bug report within an hour. If the bug report is something critical, like ROMs not booting, please contact the owner at winbo.yml@proton.me. You can also contact him at Telegram (@winbo_yml) and Discord (winbo_the_dev).
 
-      - name: Add comment for pull request
+      - name: Add a comment for pull request
         if: github.event_name == 'pull_request'
         uses: peter-evans/create-or-update-comment@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          issue-number: ${{ github.event.pull_request.number }}
           body: "Sorry, but we don't accept pull requests."
 
       - name: Close pull request
